@@ -10,21 +10,21 @@ from os.path import basename
 from keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_array, load_img
 
 #--------------------------------------------------------------------
-xmlFolder = "/home/digits/datasets/palm_dataset/labels"
-imgFolder = "/home/digits/datasets/palm_dataset/images"
-saveYoloPath = "/home/digits/datasets/palm_dataset/yolo"
-classList = { "palm":0 }
+xmlFolder = "/content/videoXml"
+imgFolder = "/content/allVideo"
+saveYoloPath = "/content/result"
+classList = { "person":0 }
 
 modelYOLO = "yolov3-tiny"  #yolov3 or yolov3-tiny
 testRatio = 0.2
-cfgFolder = "cfg.palm"
+cfgFolder = "cfg.person"
 cfg_obj_names = "obj.names"
 cfg_obj_data = "obj.data"
 
 negative_images = True  #treate images with no xml files as negative images
 numBatch = 24
 numSubdivision = 3
-darknetEcec = "/home/digits/works/darknet/darknet"
+darknetEcec = "/gdrive/My Drive/darknet/darknet"
 
 #---------------------------------------------------------------------
 
@@ -91,7 +91,7 @@ def transferYolo( xmlFilepath, imgFilepath, labelGrep=""):
             i = 0
             for className in labelName:
                 if(className==labelGrep or labelGrep==""):
-                    classID = classList[className]
+                    classID = 0
                     x = (labelXmin[i] + (labelXmax[i]-labelXmin[i])/2) * 1.0 / img_w 
                     y = (labelYmin[i] + (labelYmax[i]-labelYmin[i])/2) * 1.0 / img_h
                     w = (labelXmax[i]-labelXmin[i]) * 1.0 / img_w
@@ -121,9 +121,9 @@ for file in os.listdir(imgFolder):
         xmlfile = os.path.join(xmlFolder ,filename + ".xml")
 
         if(os.path.isfile(xmlfile)):
-            #print("id:{}".format(fileCount))
-            #print("processing {}".format(imgfile))
-            #print("processing {}".format(xmlfile))
+            print("id:{}".format(fileCount))
+            print("processing {}".format(imgfile))
+            print("processing {}".format(xmlfile))
             fileCount += 1
 
             transferYolo( xmlfile, imgfile, "")
@@ -202,8 +202,7 @@ the_file.close()
 
 print("Step 4. Start to train the YOLO model.")
 
-if not os.path.exists("darknet53.conv.74"):
-    downloadPretrained("https://pjreddie.com/media/files/darknet53.conv.74")
+
 
 classNum = len(classList)
 filterNum = (classNum + 5) * 3
@@ -214,7 +213,7 @@ if(modelYOLO == "yolov3"):
 else:
     fileCFG = "yolov3-tiny.cfg"
 
-with open(os.path.join("cfg",fileCFG)) as file:
+with open(os.path.join("./makeYOLOv3/cfg",fileCFG)) as file:
     file_content = file.read()
 
 file.close
@@ -238,3 +237,4 @@ print("        after training, you can find all the weights files here:" + os.pa
 
 time.sleep(3)
 #call(executeCmd.split())
+
