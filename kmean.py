@@ -150,6 +150,7 @@ def compute_centroids(label_path,n_anchors,loss_convergence,grid_size,iterations
         label_path = label_path.replace('JPEGImages', 'labels')
         label_path = label_path.replace('.jpg', '.txt')
         label_path = label_path.replace('.JPEG', '.txt')
+        label_path = label_path.replace('.png', '.txt')
         label_files.append(label_path)
     f.close()
 
