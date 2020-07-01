@@ -13,7 +13,7 @@ from keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_a
 xmlFolder = "/content/videoXml"
 imgFolder = "/content/allVideo"
 saveYoloPath = "/content/result"
-classList = { "person":0 ,"fall_person":1}
+classList = { "person":0 }
 
 modelYOLO = "yolov3-tiny"  #yolov3 or yolov3-tiny
 testRatio = 0.2
