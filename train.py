@@ -15,7 +15,7 @@ imgFolder = "/content/allVideo"
 saveYoloPath = "/content/result"
 classList = { "person":0 }
 
-modelYOLO = "yolov3-tiny"  #yolov3 or yolov3-tiny
+modelYOLO = "yolov2-tiny"  #yolov3 or yolov3-tiny
 testRatio = 0.0
 cfgFolder = "cfg.person"
 cfg_obj_names = "obj.names"
@@ -211,7 +211,7 @@ if(modelYOLO == "yolov3"):
     fileCFG = "yolov3.cfg"
 
 else:
-    fileCFG = "yolov3-tiny.cfg"
+    fileCFG = "yolov2-tiny.cfg"
 
 with open(os.path.join("./makeYOLOv3/cfg",fileCFG)) as file:
     file_content = file.read()
