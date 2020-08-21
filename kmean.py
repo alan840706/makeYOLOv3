@@ -189,7 +189,7 @@ def compute_centroids(label_path,n_anchors,loss_convergence,grid_size,iterations
     for centroid in centroids:
         if(count==0):
             buff=str(centroid.w * grid_size)+str( centroid.h * grid_size)
-        elif:
+        else:
             buff=buff+str(centroid.w * grid_size)+str( centroid.h * grid_size)
         count+=1
 print(buff)
