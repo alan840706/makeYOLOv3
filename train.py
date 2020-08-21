@@ -16,7 +16,7 @@ imgFolder = "/content/allVideo"
 saveYoloPath = "/content/result"
 classList = { "person":0 }
 Index=2
-modelYOLO = "yolov2-tiny"  #yolov3 or yolov3-tiny
+modelYOLO = "yolov2-tiny"  #yolov2-tier or yolov2-tiny
 testRatio = 0.2
 cfgFolder = "cfg.person"
 cfg_obj_names = "obj.names"
@@ -211,11 +211,11 @@ print("Step 4. Start to train the YOLO model.")
 classNum = len(classList)
 filterNum = (classNum + 5) * 3
 
-if(modelYOLO == "yolov3"):
-    fileCFG = "yolov3.cfg"
+if(modelYOLO == "yolov2-tiny"):
+    fileCFG = "yolov2-tiny.cfg"
 
 else:
-    fileCFG = "yolov2-tiny.cfg"
+    fileCFG = "yolov2-tier.cfg"
 
 with open(os.path.join("./makeYOLOv3/cfg",fileCFG)) as file:
     file_content = file.read()
