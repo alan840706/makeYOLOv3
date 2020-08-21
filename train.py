@@ -14,7 +14,7 @@ xmlFolder = "/content/videoXml"
 imgFolder = "/content/allVideo"
 saveYoloPath = "/content/result"
 classList = { "person":0 }
-
+Index=5
 modelYOLO = "yolov2-tiny"  #yolov3 or yolov3-tiny
 testRatio = 0.2
 cfgFolder = "cfg.person"
@@ -22,8 +22,8 @@ cfg_obj_names = "obj.names"
 cfg_obj_data = "obj.data"
 
 negative_images = True  #treate images with no xml files as negative images
-numBatch = 24
-numSubdivision = 3
+numBatch = 64
+numSubdivision = 1
 darknetEcec = "/gdrive/My Drive/darknet/darknet"
 
 #---------------------------------------------------------------------
@@ -154,7 +154,7 @@ testCount = int(len(fileList) * testRatio)
 trainCount = len(fileList) - testCount
 
 a = range(len(fileList))
-Index=1
+
 test_data = range(int((Index-1)*testCount),int(Index*testCount))
 #test_data = random.sample(a, testCount)
 #train_data = random.sample(a, trainCount)
