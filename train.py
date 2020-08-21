@@ -5,6 +5,7 @@ import time
 from shutil import copyfile
 from subprocess import call
 import cv2
+import shutil
 from xml.dom import minidom
 from os.path import basename
 from keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_array, load_img
@@ -240,3 +241,14 @@ print("        after training, you can find all the weights files here:" + os.pa
 time.sleep(3)
 #call(executeCmd.split())
 
+# step5 ----------------------------------------------------
+path = "test_img"
+if not os.path.isdir(path):
+    os.mkdir(path)
+f = open(r'cfg.person/test.txt')
+for i in f:
+    location = i.split('\n')[0]
+    record = i.split('/')
+    record = record[3].split('\n')[0]
+    shutil.copyfile(location,"test_img/"+record)
+f.close()
