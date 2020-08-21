@@ -154,7 +154,9 @@ testCount = int(len(fileList) * testRatio)
 trainCount = len(fileList) - testCount
 
 a = range(len(fileList))
-test_data = random.sample(a, testCount)
+Index=1
+test_data = range(int((Index-1)*testCount,int((Index)*testCount))
+#test_data = random.sample(a, testCount)
 #train_data = random.sample(a, trainCount)
 train_data = [x for x in a if x not in test_data]
 
