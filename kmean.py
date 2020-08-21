@@ -184,11 +184,15 @@ def compute_centroids(label_path,n_anchors,loss_convergence,grid_size,iterations
             print(centroid.w * grid_size, centroid.h * grid_size)
 
     # print result
+    print("k-means result：\n")
+    count=0
     for centroid in centroids:
-        print("k-means result：\n")
-        print(centroid.w * grid_size, centroid.h * grid_size)
-
-
+        if(count==0):
+            buff=str(centroid.w * grid_size)+str( centroid.h * grid_size)
+        elsif:
+            buff=buff+str(centroid.w * grid_size)+str( centroid.h * grid_size)
+        count+=1
+print(buff)
 label_path = "/cfg.person/train.txt"
 n_anchors = 5
 loss_convergence = 1e-6
