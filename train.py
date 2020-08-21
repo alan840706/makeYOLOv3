@@ -16,7 +16,7 @@ saveYoloPath = "/content/result"
 classList = { "person":0 }
 
 modelYOLO = "yolov2-tiny"  #yolov3 or yolov3-tiny
-testRatio = 0.0
+testRatio = 0.2
 cfgFolder = "cfg.person"
 cfg_obj_names = "obj.names"
 cfg_obj_data = "obj.data"
