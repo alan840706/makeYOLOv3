@@ -191,8 +191,9 @@ with open(os.path.join(cfgFolder ,cfg_obj_data), 'w') as the_file:
     the_file.write("train  = " + os.path.join(cfgFolder ,"train.txt") + "\n")
     the_file.write("valid  = " + os.path.join(cfgFolder ,"test.txt") + "\n")
     the_file.write("names = " + os.path.join(cfgFolder ,"obj.names") + "\n")
-    the_file.write("backup = " + os.path.join(cfgFolder ,"weights"))
-
+    #the_file.write("backup = " + os.path.join(cfgFolder ,"weights"))
+    the_file.write("backup = " + "content/drive/MyDrive/weights_save")
+    
 the_file.close()
 
 with open(os.path.join(cfgFolder ,cfg_obj_names), 'w') as the_file:
