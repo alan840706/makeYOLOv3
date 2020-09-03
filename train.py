@@ -155,8 +155,14 @@ testCount = int(len(fileList) * testRatio)
 trainCount = len(fileList) - testCount
 
 a = range(len(fileList))
-for i in fileList:
-    print(i)
+
+for j in range(len(fileList)):
+    for i in fileList:
+        buff= i.spilt('(')[1]
+        buff= buff.spilt(')')[0]
+        if (int(buff)== j):
+            print(j)
+    
 test_data = range(int((Index-1)*testCount),int(Index*testCount))
 #test_data = random.sample(a, testCount)
 #train_data = random.sample(a, trainCount)
@@ -177,7 +183,7 @@ the_file.close()
 print("        Train dataset:{} images".format(len(train_data)))
 print("        Test dataset:{} images".format(len(test_data)))
 
-# step2 -------------------------------------------
+# step3 -------------------------------------------
 
 print("Step 3. Generate data & names files under "+cfgFolder+ " folder, and update YOLO config file.")
 
