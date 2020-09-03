@@ -156,12 +156,16 @@ trainCount = len(fileList) - testCount
 
 a = range(len(fileList))
 
+buff_fileList = []
+
 for j in range(len(fileList)):
     for i in fileList:
         buff= i.split('(')[1]
         buff= buff.split(')')[0]
-        if (int(buff)== j):
-            print(j)
+        if (int(buff)== j+1):
+            buff_fileList.append(i)
+print("buff",buff_fileList)
+print(fileList)
     
 test_data = range(int((Index-1)*testCount),int(Index*testCount))
 #test_data = random.sample(a, testCount)
