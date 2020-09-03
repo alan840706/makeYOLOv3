@@ -158,8 +158,8 @@ a = range(len(fileList))
 
 for j in range(len(fileList)):
     for i in fileList:
-        buff= i.spilt('(')[1]
-        buff= buff.spilt(')')[0]
+        buff= i.split('(')[1]
+        buff= buff.split(')')[0]
         if (int(buff)== j):
             print(j)
     
