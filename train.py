@@ -172,11 +172,25 @@ test_data = range(int((Index-1)*testCount),int(Index*testCount))
 #train_data = random.sample(a, trainCount)
 train_data = [x for x in a if x not in test_data]
 
+try:
+    os.remove(outputTrainFile)
+except OSError as e:
+    print(e)
+else:
+    imustdo=0
+
 with open(outputTrainFile, 'a') as the_file:
     for i in train_data:
         the_file.write(fileList[i] + "\n")
 
 the_file.close()
+
+try:
+    os.remove(outputTestFile)
+except OSError as e:
+    print(e)
+else:
+    imustdo=0
 
 with open(outputTestFile, 'a') as the_file:
     for i in test_data:
