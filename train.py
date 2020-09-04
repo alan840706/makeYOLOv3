@@ -174,8 +174,6 @@ train_data = [x for x in a if x not in test_data]
 
 try:
     os.remove(outputTrainFile)
-except OSError as e:
-    print(e)
 else:
     imustdo=0
 
@@ -187,8 +185,6 @@ the_file.close()
 
 try:
     os.remove(outputTestFile)
-except OSError as e:
-    print(e)
 else:
     imustdo=0
 
