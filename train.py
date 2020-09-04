@@ -174,7 +174,7 @@ train_data = [x for x in a if x not in test_data]
 
 try:
     os.remove(outputTrainFile)
-else:
+except:
     imustdo=0
 
 with open(outputTrainFile, 'a') as the_file:
@@ -185,7 +185,7 @@ the_file.close()
 
 try:
     os.remove(outputTestFile)
-else:
+except:
     imustdo=0
 
 with open(outputTestFile, 'a') as the_file:
