@@ -9,15 +9,39 @@ import shutil
 from xml.dom import minidom
 from os.path import basename
 from keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_array, load_img
+need_file=["content/result","cfg.person"]
+
+if(os.path.exists("garbage.txt")):
+  f = open("garbage.txt", 'r')
+  seq = f.readline()
+  garbage=int(seq)
+  print(seq)
+  f.close()
+else:
+  garbage = 0
+ 
+
+try:
+  for i in need_file:
+      os.rename(i, i+str(garbage))
+      shutil.move(i+str(garbage),"garbage")
+except:
+  imustdo=0
+
+garbage += 1
+
+f = open("garbage.txt", 'w+')
+f.writelines(str(garbage))
+f.close()
 
 #--------------------------------------------------------------------
 xmlFolder = "/content/videoXml"
 imgFolder = "/content/allVideo"
 saveYoloPath = "/content/result"
 classList = { "person":0 }
-Index=1
+Index=5
 modelYOLO = "yolov2-tiny"  #yolov2-tier or yolov2-tiny
-testRatio = 0.0
+testRatio = 0.2
 cfgFolder = "cfg.person"
 cfg_obj_names = "obj.names"
 cfg_obj_data = "obj.data"
