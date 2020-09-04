@@ -168,8 +168,6 @@ fileList = buff_fileList
 
     
 test_data = range(int((Index-1)*testCount),int(Index*testCount))
-#test_data = random.sample(a, testCount)
-#train_data = random.sample(a, trainCount)
 train_data = [x for x in a if x not in test_data]
 
 try:
@@ -212,7 +210,6 @@ with open(os.path.join(cfgFolder ,cfg_obj_data), 'w') as the_file:
     the_file.write("train  = " + os.path.join(cfgFolder ,"train.txt") + "\n")
     the_file.write("valid  = " + os.path.join(cfgFolder ,"test.txt") + "\n")
     the_file.write("names = " + os.path.join(cfgFolder ,"obj.names") + "\n")
-    #the_file.write("backup = " + os.path.join(cfgFolder ,"weights"))
     the_file.write("backup = " + "content/drive/MyDrive/weights_save")
     
 the_file.close()
@@ -261,7 +258,7 @@ print("")
 print("        after training, you can find all the weights files here:" + os.path.join(cfgFolder ,"weights"))
 
 time.sleep(3)
-#call(executeCmd.split())
+
 
 # step5 ----------------------------------------------------
 path = "test_img"
