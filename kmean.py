@@ -193,7 +193,7 @@ def compute_centroids(label_path,n_anchors,loss_convergence,grid_size,iterations
             buff=buff+","+str(centroid.w * grid_size)+","+str( centroid.h * grid_size)
         count+=1
     print(buff)
-label_path = "/cfg.person/train.txt"
+label_path = "/1_cfg.person/train.txt"
 n_anchors = 5
 loss_convergence = 1e-6
 grid_size = 13
