@@ -40,9 +40,8 @@ imgFolder = "/content/allVideo"
 saveYoloPath = "/content/result"
 classList = { "person":0 }
 modelYOLO = "yolov2-tiny"  #yolov2-tier or yolov2-tiny
-Index= 1
 testRatio = 0.2
-cfgFolder = "cfg.person"
+cfgFolderName = "cfg.person"
 cfg_obj_names = "obj.names"
 cfg_obj_data = "obj.data"
 
@@ -52,9 +51,7 @@ numSubdivision = 1
 darknetEcec = "/gdrive/My Drive/darknet/darknet"
 
 #---------------------------------------------------------------------
-if Index*testRatio>1:
-  print("Index is not valid")
-  sys.exit()
+
 if not os.path.exists(saveYoloPath):
     os.makedirs(saveYoloPath)
 
@@ -162,139 +159,141 @@ for file in os.listdir(imgFolder):
 
 print("        {} images transered.".format(fileCount))
 # step2 ---------------------------------------------------------------
-fileList = []
-outputTrainFile = cfgFolder + "/train.txt"
-outputTestFile = cfgFolder + "/test.txt"
+if testRatio!=0:
+  Train_times = range(int(1/testRatio))
+  Train_times = [i+1 for i in Train_times]
+for m in Train_times:
+  fileList = []
+  Index=m
+  cfgFolder=cfgFolderName
+  cfgFolder = str(Index)+'_'+cfgFolder
+  outputTrainFile = cfgFolder + "/train.txt"
+  outputTestFile = cfgFolder + "/test.txt"
 
-print("Step 2. Create YOLO cfg folder and split dataset to train and test datasets.")
-if not os.path.exists(cfgFolder):
-    os.makedirs(cfgFolder)
-
-try:
-  os.mkdir(cfgFolder+'/'+str(Index)+"_dataset")
-except:
-  imustdo=0
+  print("Step 2. Create YOLO cfg folder and split dataset to train and test datasets.")
+  if not os.path.exists(cfgFolder):
+      os.makedirs(cfgFolder)
 
 
-for file in os.listdir(saveYoloPath):
-    filename, file_extension = os.path.splitext(file)
-    file_extension = file_extension.lower()
+  for file in os.listdir(saveYoloPath):
+      filename, file_extension = os.path.splitext(file)
+      file_extension = file_extension.lower()
 
-    if(file_extension == ".jpg" or file_extension==".jpeg" or file_extension==".png" or file_extension==".bmp"):
-        fileList.append(os.path.join(saveYoloPath ,file))
+      if(file_extension == ".jpg" or file_extension==".jpeg" or file_extension==".png" or file_extension==".bmp"):
+          fileList.append(os.path.join(saveYoloPath ,file))
 
-testCount = int(len(fileList) * testRatio)
+  testCount = int(len(fileList) * testRatio)
 
-if (testRatio!=0):
-  trainCount = testCount*((1/testRatio)-1)
-  vaild_data = int(testCount*int(1/testRatio))
-  fileList=fileList[:vaild_data]
-else:
-  trainCount = int(len(fileList))
+  if (testRatio!=0):
+    trainCount = testCount*((1/testRatio)-1)
+    vaild_data = int(testCount*int(1/testRatio))
+    fileList=fileList[:vaild_data]
+  else:
+    trainCount = int(len(fileList))
 
-a = range(len(fileList))   
+  a = range(len(fileList))   
 
-test_data = range(int((Index-1)*testCount),int(Index*testCount))
-train_data = [x for x in a if x not in test_data]
+  test_data = range(int((Index-1)*testCount),int(Index*testCount))
+  train_data = [x for x in a if x not in test_data]
 
-try:
-    os.remove(outputTrainFile)
-except:
-    imustdo=0
+  try:
+      os.remove(outputTrainFile)
+  except:
+      imustdo=0
 
-with open(outputTrainFile, 'a') as the_file:
-    for i in train_data:
-      the_file.write(fileList[i] + "\n")
-
-the_file.close()
-
-try:
-    os.remove(outputTestFile)
-except:
-    imustdo=0
-
-with open(outputTestFile, 'a') as the_file:
-    for i in test_data:
+  with open(outputTrainFile, 'a') as the_file:
+      for i in train_data:
         the_file.write(fileList[i] + "\n")
 
-the_file.close()
+  the_file.close()
 
-print("        Train dataset:{} images".format(len(train_data)))
-print("        Test dataset:{} images".format(len(test_data)))
+  try:
+      os.remove(outputTestFile)
+  except:
+      imustdo=0
 
-# step3 -------------------------------------------
+  with open(outputTestFile, 'a') as the_file:
+      for i in test_data:
+          the_file.write(fileList[i] + "\n")
 
-print("Step 3. Generate data & names files under "+cfgFolder+ " folder, and update YOLO config file.")
+  the_file.close()
 
-classes = len(classList)
+  print("        Train dataset:{} images".format(len(train_data)))
+  print("        Test dataset:{} images".format(len(test_data)))
 
-if not os.path.exists(os.path.join(cfgFolder ,"weights")):
-    os.makedirs(os.path.join(cfgFolder ,"weights"))
-    print("all weights will generated in here: " + os.path.join(cfgFolder ,"weights"))
+  # step3 -------------------------------------------
 
-with open(os.path.join(cfgFolder ,cfg_obj_data), 'w') as the_file:
-    the_file.write("classes= " + str(classes) + "\n")
-    the_file.write("train  = " + os.path.join(cfgFolder ,"train.txt") + "\n")
-    the_file.write("valid  = " + os.path.join(cfgFolder ,"test.txt") + "\n")
-    the_file.write("names = " + os.path.join(cfgFolder ,"obj.names") + "\n")
-    the_file.write("backup = " + "content/drive/MyDrive/weights_save")
-    
-the_file.close()
+  print("Step 3. Generate data & names files under "+cfgFolder+ " folder, and update YOLO config file.")
 
-with open(os.path.join(cfgFolder ,cfg_obj_names), 'w') as the_file:
-    for className in classList:
-        the_file.write(className + "\n")
+  classes = len(classList)
 
-the_file.close()
+  if not os.path.exists(os.path.join(cfgFolder ,"weights")):
+      os.makedirs(os.path.join(cfgFolder ,"weights"))
+      print("all weights will generated in here: " + os.path.join(cfgFolder ,"weights"))
 
-# step4 ----------------------------------------------------
+  with open(os.path.join(cfgFolder ,cfg_obj_data), 'w') as the_file:
+      the_file.write("classes= " + str(classes) + "\n")
+      the_file.write("train  = " + os.path.join(cfgFolder ,"train.txt") + "\n")
+      the_file.write("valid  = " + os.path.join(cfgFolder ,"test.txt") + "\n")
+      the_file.write("names = " + os.path.join(cfgFolder ,"obj.names") + "\n")
+      the_file.write("backup = " + "content/drive/MyDrive/weights_save")
+      
+  the_file.close()
 
-print("Step 4. Start to train the YOLO model.")
+  with open(os.path.join(cfgFolder ,cfg_obj_names), 'w') as the_file:
+      for className in classList:
+          the_file.write(className + "\n")
+
+  the_file.close()
+
+  # step4 ----------------------------------------------------
+
+  print("Step 4. Start to train the YOLO model.")
 
 
 
-classNum = len(classList)
-filterNum = (classNum + 5) * 3
+  classNum = len(classList)
+  filterNum = (classNum + 5) * 3
 
-if(modelYOLO == "yolov2-tiny"):
-    fileCFG = "yolov2-tiny.cfg"
+  if(modelYOLO == "yolov2-tiny"):
+      fileCFG = "yolov2-tiny.cfg"
 
-else:
-    fileCFG = "yolov2-tier.cfg"
+  else:
+      fileCFG = "yolov2-tier.cfg"
 
-with open(os.path.join("./makeYOLOv3/cfg",fileCFG)) as file:
-    file_content = file.read()
+  with open(os.path.join("./makeYOLOv3/cfg",fileCFG)) as file:
+      file_content = file.read()
 
-file.close
+  file.close
 
-file_updated = file_content.replace("{BATCH}", str(numBatch))
-file_updated = file_updated.replace("{SUBDIVISIONS}", str(numSubdivision))
-file_updated = file_updated.replace("{FILTERS}", str(filterNum))
-file_updated = file_updated.replace("{CLASSES}", str(classNum))
+  file_updated = file_content.replace("{BATCH}", str(numBatch))
+  file_updated = file_updated.replace("{SUBDIVISIONS}", str(numSubdivision))
+  file_updated = file_updated.replace("{FILTERS}", str(filterNum))
+  file_updated = file_updated.replace("{CLASSES}", str(classNum))
 
-file = open(os.path.join(cfgFolder,fileCFG), "w")
-file.write(file_updated)
-file.close
+  file = open(os.path.join(cfgFolder,fileCFG), "w")
+  file.write(file_updated)
+  file.close
 
-executeCmd = darknetEcec + " detector train " + os.path.join(cfgFolder,"obj.data") + " " \
-    + os.path.join(cfgFolder,fileCFG) + " darknet53.conv.74"
+  executeCmd = darknetEcec + " detector train " + os.path.join(cfgFolder,"obj.data") + " " \
+      + os.path.join(cfgFolder,fileCFG) + " darknet53.conv.74"
 
-print("        please copy and paste to run the darknet training command below:")
-print("          " + executeCmd)
-print("")
-print("        after training, you can find all the weights files here:" + os.path.join(cfgFolder ,"weights"))
+  print("        please copy and paste to run the darknet training command below:")
+  print("          " + executeCmd)
+  print("")
+  print("        after training, you can find all the weights files here:" + os.path.join(cfgFolder ,"weights"))
 
-time.sleep(3)
+  time.sleep(3)
 
 
 # step5 ----------------------------------------------------
-path = "test_img"
-if not os.path.isdir(path):
-    os.mkdir(path)
-f = open(r'cfg.person/test.txt')
-for i in f:
-    location = i.split('\n')[0]
-    record = i.split('/')
-    record = record[3].split('\n')[0]
-    shutil.copyfile(location,"test_img/"+record)
-f.close()
+  path = str(Index)+'_'+"test_img"
+  if not os.path.isdir(path):
+      os.mkdir(path)
+  f = open(str(Index)+'_'+'cfg.person/test.txt')
+  for i in f:
+      location = i.split('\n')[0]
+      record = i.split('/')
+      record = record[3].split('\n')[0]
+      shutil.copyfile(location,path+'/'+record)
+  f.close()
