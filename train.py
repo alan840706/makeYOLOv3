@@ -163,6 +163,10 @@ for file in os.listdir(imgFolder):
 print("        {} images transered.".format(fileCount))
 # step2 ---------------------------------------------------------------
 fileList = []
+try:
+  os.mkdir('cfgFolder'+'/'+str(Index)+"_dataset")
+except:
+  imustdo=0
 outputTrainFile = cfgFolder + "/train.txt"
 outputTestFile = cfgFolder + "/test.txt"
 
