@@ -163,16 +163,18 @@ for file in os.listdir(imgFolder):
 print("        {} images transered.".format(fileCount))
 # step2 ---------------------------------------------------------------
 fileList = []
-try:
-  os.mkdir(cfgFolder+'/'+str(Index)+"_dataset")
-except:
-  imustdo=0
 outputTrainFile = cfgFolder + "/train.txt"
 outputTestFile = cfgFolder + "/test.txt"
 
 print("Step 2. Create YOLO cfg folder and split dataset to train and test datasets.")
 if not os.path.exists(cfgFolder):
     os.makedirs(cfgFolder)
+
+try:
+  os.mkdir(cfgFolder+'/'+str(Index)+"_dataset")
+except:
+  imustdo=0
+
 
 for file in os.listdir(saveYoloPath):
     filename, file_extension = os.path.splitext(file)
