@@ -6,6 +6,7 @@ from shutil import copyfile
 from subprocess import call
 import cv2
 import shutil
+import sys
 from xml.dom import minidom
 from os.path import basename
 from keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_array, load_img
@@ -15,7 +16,6 @@ if(os.path.exists("garbage.txt")):
   f = open("garbage.txt", 'r')
   seq = f.readline()
   garbage=int(seq)
-  print(seq)
   f.close()
 else:
   garbage = 0
@@ -39,8 +39,8 @@ xmlFolder = "/content/videoXml"
 imgFolder = "/content/allVideo"
 saveYoloPath = "/content/result"
 classList = { "person":0 }
-Index=5
 modelYOLO = "yolov2-tiny"  #yolov2-tier or yolov2-tiny
+Index= 1
 testRatio = 0.2
 cfgFolder = "cfg.person"
 cfg_obj_names = "obj.names"
@@ -52,7 +52,9 @@ numSubdivision = 1
 darknetEcec = "/gdrive/My Drive/darknet/darknet"
 
 #---------------------------------------------------------------------
-
+if Index*testRatio>1:
+  print("Index is not valid")
+  sys.exit()
 if not os.path.exists(saveYoloPath):
     os.makedirs(saveYoloPath)
 
@@ -176,21 +178,16 @@ for file in os.listdir(saveYoloPath):
         fileList.append(os.path.join(saveYoloPath ,file))
 
 testCount = int(len(fileList) * testRatio)
-trainCount = len(fileList) - testCount
 
-a = range(len(fileList))
+if (testRatio!=0):
+  trainCount = testCount*((1/testRatio)-1)
+  vaild_data = int(testCount*int(1/testRatio))
+  fileList=fileList[:vaild_data]
+else:
+  trainCount = int(len(fileList))
 
-buff_fileList = []
+a = range(len(fileList))   
 
-for j in range(len(fileList)):
-    for i in fileList:
-        buff= i.split('(')[1]
-        buff= buff.split(')')[0]
-        if (int(buff)== j+1):
-            buff_fileList.append(i)
-fileList = buff_fileList
-
-    
 test_data = range(int((Index-1)*testCount),int(Index*testCount))
 train_data = [x for x in a if x not in test_data]
 
@@ -201,7 +198,7 @@ except:
 
 with open(outputTrainFile, 'a') as the_file:
     for i in train_data:
-        the_file.write(fileList[i] + "\n")
+      the_file.write(fileList[i] + "\n")
 
 the_file.close()
 
