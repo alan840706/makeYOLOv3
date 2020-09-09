@@ -162,9 +162,11 @@ print("        {} images transered.".format(fileCount))
 if testRatio!=0:
   Train_times = range(int(1/testRatio))
   Train_times = [i+1 for i in Train_times]
+  print('\n',len(Train_times),' fold cross validation')
 for m in Train_times:
   fileList = []
   Index=m
+  print("-------------------Index:",Index,"-------------------")
   cfgFolder=cfgFolderName
   cfgFolder = str(Index)+'_'+cfgFolder
   outputTrainFile = cfgFolder + "/train.txt"
