@@ -3,6 +3,13 @@
 # 通過k-means ++ 演算法獲取YOLOv2需要的anchors的尺寸
 import numpy as np
 
+label_path = "/1_cfg.person/train.txt"
+n_anchors = 5
+loss_convergence = 1e-6
+grid_size = 13
+iterations_num = 100
+plus = 0
+
 # 定義Box類，描述bounding box的座標
 class Box():
     def __init__(self, x, y, w, h):
@@ -127,9 +134,11 @@ def do_kmeans(n_anchors, boxes, centroids):
         new_centroids[group_index].h += box.h
 
     for i in range(n_anchors):
-        new_centroids[i].w /= len(groups[i]) #這裡涉及到了距離的跟新，作者直接使用平均w作為新的寬
-        new_centroids[i].h /= len(groups[i])
+      print(len(groups[i]))
+      new_centroids[i].w /= len(groups[i]) #這裡涉及到了距離的跟新，作者直接使用平均w作為新的寬
+      new_centroids[i].h /= len(groups[i])
 
+    
     return new_centroids, groups, loss
 
 
@@ -193,10 +202,5 @@ def compute_centroids(label_path,n_anchors,loss_convergence,grid_size,iterations
             buff=buff+","+str(centroid.w * grid_size)+","+str( centroid.h * grid_size)
         count+=1
     print(buff)
-label_path = "/1_cfg.person/train.txt"
-n_anchors = 5
-loss_convergence = 1e-6
-grid_size = 13
-iterations_num = 100
-plus = 0
+
 compute_centroids(label_path,n_anchors,loss_convergence,grid_size,iterations_num,plus)
