@@ -6,7 +6,8 @@ import numpy as np
 label_path = "/1_cfg.person/train.txt"
 n_anchors = 5
 loss_convergence = 1e-6
-grid_size = 13
+w_grid_size = 10
+h_grid_size = 7
 iterations_num = 100
 plus = 0
 
@@ -134,7 +135,6 @@ def do_kmeans(n_anchors, boxes, centroids):
         new_centroids[group_index].h += box.h
 
     for i in range(n_anchors):
-      print(len(groups[i]))
       new_centroids[i].w /= len(groups[i]) #這裡涉及到了距離的跟新，作者直接使用平均w作為新的寬
       new_centroids[i].h /= len(groups[i])
 
@@ -149,7 +149,7 @@ def do_kmeans(n_anchors, boxes, centroids):
 # grid_size * grid_size 是柵格數量
 # iterations_num是最大迭代次數
 # plus = 1時啟用k means ++ 初始化centroids
-def compute_centroids(label_path,n_anchors,loss_convergence,grid_size,iterations_num,plus):
+def compute_centroids(label_path,n_anchors,loss_convergence,w_grid_size,h_grid_size,iterations_num,plus):
 
     boxes = []
     label_files = []
@@ -184,23 +184,23 @@ def compute_centroids(label_path,n_anchors,loss_convergence,grid_size,iterations
     while (True):
         centroids, groups, loss = do_kmeans(n_anchors, boxes, centroids)
         iterations = iterations + 1
-        print("loss = %f" % loss)
-        if abs(old_loss - loss) < loss_convergence or iterations > iterations_num:
+        print("\n-------------loss = %f-------------" % loss)
+        if iterations > iterations_num:
             break
         old_loss = loss
 
         for centroid in centroids:
-            print(centroid.w * grid_size, centroid.h * grid_size)
+            print(centroid.w * w_grid_size, centroid.h * h_grid_size)
 
     # print result
     print("k-means result：\n")
     count=0
     for centroid in centroids:
         if(count==0):
-            buff=str(centroid.w * grid_size)+","+str( centroid.h * grid_size)
+            buff=str(centroid.w * w_grid_size)+","+str( centroid.h * h_grid_size)
         else:
-            buff=buff+","+str(centroid.w * grid_size)+","+str( centroid.h * grid_size)
+            buff=buff+","+str(centroid.w * w_grid_size)+","+str( centroid.h * h_grid_size)
         count+=1
     print(buff)
 
-compute_centroids(label_path,n_anchors,loss_convergence,grid_size,iterations_num,plus)
+compute_centroids(label_path,n_anchors,loss_convergence,w_grid_size,h_grid_size,iterations_num,plus)
