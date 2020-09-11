@@ -23,16 +23,51 @@ else:
 
 fall_count = 0
 Not_fall_count = 0
-
+temp_count = 0
+buff = os.listdir("content/allVideo/")
+ 
 # 開啟 CSV 檔案
-with open('content/State.csv', newline='') as csvfile:
+for i in buff:
+  folder_index=i.split("-")[1]
+  img_index = i.split("-")[-1].split(".")[0]
+    # 讀取 CSV 檔案內容
 
-  # 讀取 CSV 檔案內容
-  rows = csv.reader(csvfile)
-
-  # 以迴圈輸出每一列
-  for row in rows:
-    print(row)
+  for t in folder_index:
+    if t =='0':
+      folder_index=folder_index[1:]
+    else:
+      break
+   
+  for k in img_index:
+    if k =='0':
+      img_index=img_index[1:]
+    else:
+      break
+    # 以迴圈輸出每一列
+  with open('content/State.csv', newline='') as csvfile:
+    rows = csv.reader(csvfile)
+    
+    for row in rows:
+      csv_fold_index=row[0].split('-')[1]
+      for j in csv_fold_index:
+        if j =='0':
+          csv_fold_index=csv_fold_index[1:]
+        else:
+          break
+      csv_img_index = row[1]
+      #print(csv_fold_index,csv_img_index)
+      if folder_index==csv_fold_index and img_index==csv_img_index:
+        if row[2]=='-1':
+          Not_fall_count+=1
+        elif row[2]=='1':
+          fall_count+=1
+        else:
+          temp_count+=1
+        break
+    csvfile.close()   
+print('fall_count:',fall_count) 
+print('Not_fall_count:',Not_fall_count)
+print('temp_count:',temp_count)   
  
 
 try:
