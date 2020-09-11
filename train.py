@@ -7,82 +7,10 @@ from subprocess import call
 import cv2
 import shutil
 import sys
-import csv
 from xml.dom import minidom
 from os.path import basename
 from keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_array, load_img
 need_file=["content/result","cfg.person"]
-
-if(os.path.exists("garbage.txt")):
-  f = open("garbage.txt", 'r')
-  seq = f.readline()
-  garbage=int(seq)
-  f.close()
-else:
-  garbage = 0
-
-fall_count = 0
-Not_fall_count = 0
-temp_count = 0
-buff = os.listdir("content/allVideo/")
- 
-# 開啟 CSV 檔案
-for i in buff:
-  folder_index=i.split("-")[1]
-  img_index = i.split("-")[-1].split(".")[0]
-    # 讀取 CSV 檔案內容
-
-  for t in folder_index:
-    if t =='0':
-      folder_index=folder_index[1:]
-    else:
-      break
-   
-  for k in img_index:
-    if k =='0':
-      img_index=img_index[1:]
-    else:
-      break
-    # 以迴圈輸出每一列
-  with open('content/State.csv', newline='') as csvfile:
-    rows = csv.reader(csvfile)
-    
-    for row in rows:
-      csv_fold_index=row[0].split('-')[1]
-      for j in csv_fold_index:
-        if j =='0':
-          csv_fold_index=csv_fold_index[1:]
-        else:
-          break
-      csv_img_index = row[1]
-      #print(csv_fold_index,csv_img_index)
-      if folder_index==csv_fold_index and img_index==csv_img_index:
-        if row[2]=='-1':
-          Not_fall_count+=1
-        elif row[2]=='1':
-          fall_count+=1
-        else:
-          temp_count+=1
-        break
-    csvfile.close()   
-print('fall_count:',fall_count) 
-print('Not_fall_count:',Not_fall_count)
-print('temp_count:',temp_count)   
- 
-
-try:
-  for i in need_file:
-      os.rename(i, i+str(garbage))
-      shutil.move(i+str(garbage),"garbage")
-except:
-  imustdo=0
-
-garbage += 1
-
-f = open("garbage.txt", 'w+')
-f.writelines(str(garbage))
-f.close()
-
 #--------------------------------------------------------------------
 xmlFolder = "/content/videoXml"
 imgFolder = "/content/allVideo"
@@ -100,6 +28,28 @@ numSubdivision = 1
 darknetEcec = "/gdrive/My Drive/darknet/darknet"
 
 #---------------------------------------------------------------------
+if(os.path.exists("garbage.txt")):
+  f = open("garbage.txt", 'r')
+  seq = f.readline()
+  garbage=int(seq)
+  f.close()
+else:
+  garbage = 0
+
+try:
+  for i in need_file:
+      os.rename(i, i+str(garbage))
+      shutil.move(i+str(garbage),"garbage")
+except:
+  imustdo=0
+
+garbage += 1
+
+f = open("garbage.txt", 'w+')
+f.writelines(str(garbage))
+f.close()
+
+
 
 if not os.path.exists(saveYoloPath):
     os.makedirs(saveYoloPath)
