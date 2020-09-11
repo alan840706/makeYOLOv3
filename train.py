@@ -7,6 +7,7 @@ from subprocess import call
 import cv2
 import shutil
 import sys
+import csv
 from xml.dom import minidom
 from os.path import basename
 from keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_array, load_img
@@ -19,6 +20,19 @@ if(os.path.exists("garbage.txt")):
   f.close()
 else:
   garbage = 0
+
+fall_count = 0
+Not_fall_count = 0
+
+# 開啟 CSV 檔案
+with open('content/State.csv', newline='') as csvfile:
+
+  # 讀取 CSV 檔案內容
+  rows = csv.reader(csvfile)
+
+  # 以迴圈輸出每一列
+  for row in rows:
+    print(row)
  
 
 try:
