@@ -189,21 +189,18 @@ for i in os.listdir(imgFolder):
 
   f.close()
 
-if len(fall_state)>len(Not_fall_state):
-  data_len = len(Not_fall_state)
-else:
-  data_len = len(fall_state)
 
-fall_state = fall_state[:data_len]
-Not_fall_state = Not_fall_state[:data_len]
+
+data_state_round = [fall_state,Not_fall_state,temp_state]
+data_len = min(len(fall_state),len(Not_fall_state),len(temp_state))
+
+for i in range(len(data_state_round)):
+  data_state_round[i] = data_state_round[i][:data_len]
+
 for i in range(data_len):
-  fall_state[i] = saveYoloPath+'/'+fall_state[i]
-  Not_fall_state[i] = saveYoloPath+'/'+Not_fall_state[i]
-  
-fall_state = fall_state[:data_len]
-Not_fall_state = Not_fall_state[:data_len]
-data_state_round = [fall_state,Not_fall_state]
-
+  for j in data_state_round:
+    j[i] = saveYoloPath+'/'+j[i]
+    
 for m in Train_times:
   Index=m
   print("-------------------Index:",Index,"-------------------")
@@ -216,6 +213,7 @@ for m in Train_times:
   if not os.path.exists(cfgFolder):
       os.makedirs(cfgFolder)
   for p in data_state_round:
+    
     fileList = p
     testCount = int(len(fileList) * testRatio)
 
@@ -244,8 +242,8 @@ for m in Train_times:
     the_file.close()
     
 
-  print("        Train dataset(x2):{} images".format(len(train_data)))
-  print("        Test dataset(x2):{} images".format(len(test_data)))
+  print("        Train dataset(x"+str(len(data_state_round))+"):{} images".format(len(train_data)))
+  print("        Test dataset(x"+str(len(data_state_round))+"):{} images".format(len(test_data)))
   
   # step3 -------------------------------------------
 
