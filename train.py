@@ -15,6 +15,7 @@ need_file=["content/result","cfg.person"]
 xmlFolder = "/content/videoXml"
 imgFolder = "/content/allVideo"
 saveYoloPath = "/content/result"
+class_folder = "content/class_state"
 classList = { "person":0 }
 modelYOLO = "yolov2-tiny"  #yolov2-tier or yolov2-tiny
 testRatio = 0.2
@@ -171,6 +172,38 @@ for file in os.listdir(saveYoloPath):
   if(file_extension == ".jpg" or file_extension==".jpeg" or file_extension==".png" or file_extension==".bmp"):
     fileList.append(os.path.join(saveYoloPath ,file))
 
+fall_state = []
+Not_fall_state = []
+temp_state = []
+
+for i in os.listdir(imgFolder):
+  buff = i.replace('jpg','txt')
+  f = open(class_folder+'/'+buff)
+  buff = f.readlines()[0]
+  if (buff) =="0":
+    temp_state.append(i)
+  elif (buff) =="1":
+    fall_state.append(i)
+  else:
+    Not_fall_state.append(i)
+
+  f.close()
+
+if len(fall_state)>len(Not_fall_state):
+  data_len = len(Not_fall_state)
+else:
+  data_len = len(fall_state)
+
+fall_state = fall_state[:data_len]
+Not_fall_state = Not_fall_state[:data_len]
+for i in range(data_len):
+  fall_state[i] = saveYoloPath+'/'+fall_state[i]
+  Not_fall_state[i] = saveYoloPath+'/'+Not_fall_state[i]
+  
+fall_state = fall_state[:data_len]
+Not_fall_state = Not_fall_state[:data_len]
+data_state_round = [fall_state,Not_fall_state]
+
 for m in Train_times:
   Index=m
   print("-------------------Index:",Index,"-------------------")
@@ -182,46 +215,38 @@ for m in Train_times:
   print("Step 2. Create YOLO cfg folder and split dataset to train and test datasets.")
   if not os.path.exists(cfgFolder):
       os.makedirs(cfgFolder)
+  for p in data_state_round:
+    fileList = p
+    testCount = int(len(fileList) * testRatio)
 
-  testCount = int(len(fileList) * testRatio)
+    if (testRatio!=0):
+      trainCount = testCount*((1/testRatio)-1)
+      vaild_data = int(testCount*int(1/testRatio))
+      fileList=fileList[:vaild_data]
+    else:
+      trainCount = int(len(fileList))
 
-  if (testRatio!=0):
-    trainCount = testCount*((1/testRatio)-1)
-    vaild_data = int(testCount*int(1/testRatio))
-    fileList=fileList[:vaild_data]
-  else:
-    trainCount = int(len(fileList))
+    a = range(len(fileList))   
 
-  a = range(len(fileList))   
+    test_data = range(int((Index-1)*testCount),int(Index*testCount))
+    train_data = [x for x in a if x not in test_data]
+    
 
-  test_data = range(int((Index-1)*testCount),int(Index*testCount))
-  train_data = [x for x in a if x not in test_data]
-
-  try:
-      os.remove(outputTrainFile)
-  except:
-      imustdo=0
-
-  with open(outputTrainFile, 'a') as the_file:
-      for i in train_data:
-        the_file.write(fileList[i] + "\n")
-
-  the_file.close()
-
-  try:
-      os.remove(outputTestFile)
-  except:
-      imustdo=0
-
-  with open(outputTestFile, 'a') as the_file:
-      for i in test_data:
+    with open(outputTrainFile, 'a') as the_file:
+        for i in train_data:
           the_file.write(fileList[i] + "\n")
 
-  the_file.close()
+    the_file.close()
 
-  print("        Train dataset:{} images".format(len(train_data)))
-  print("        Test dataset:{} images".format(len(test_data)))
+    with open(outputTestFile, 'a') as the_file:
+        for i in test_data:
+            the_file.write(fileList[i] + "\n")
+    the_file.close()
+    
 
+  print("        Train dataset(x2):{} images".format(len(train_data)))
+  print("        Test dataset(x2):{} images".format(len(test_data)))
+  
   # step3 -------------------------------------------
 
   print("Step 3. Generate data & names files under "+cfgFolder+ " folder, and update YOLO config file.")
