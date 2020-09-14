@@ -162,8 +162,15 @@ if testRatio!=0:
   Train_times = range(int(1/testRatio))
   Train_times = [i+1 for i in Train_times]
   print('\n',len(Train_times),' fold cross validation')
-for m in Train_times:
   fileList = []
+  for file in os.listdir(saveYoloPath):
+      filename, file_extension = os.path.splitext(file)
+      file_extension = file_extension.lower()
+
+      if(file_extension == ".jpg" or file_extension==".jpeg" or file_extension==".png" or file_extension==".bmp"):
+          fileList.append(os.path.join(saveYoloPath ,file))
+
+for m in Train_times:
   Index=m
   print("-------------------Index:",Index,"-------------------")
   cfgFolder=cfgFolderName
@@ -174,14 +181,6 @@ for m in Train_times:
   print("Step 2. Create YOLO cfg folder and split dataset to train and test datasets.")
   if not os.path.exists(cfgFolder):
       os.makedirs(cfgFolder)
-
-
-  for file in os.listdir(saveYoloPath):
-      filename, file_extension = os.path.splitext(file)
-      file_extension = file_extension.lower()
-
-      if(file_extension == ".jpg" or file_extension==".jpeg" or file_extension==".png" or file_extension==".bmp"):
-          fileList.append(os.path.join(saveYoloPath ,file))
 
   testCount = int(len(fileList) * testRatio)
 
