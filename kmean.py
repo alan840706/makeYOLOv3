@@ -201,6 +201,6 @@ def compute_centroids(label_path,n_anchors,loss_convergence,w_grid_size,h_grid_s
         else:
             buff=buff+","+str(centroid.w * w_grid_size)+","+str( centroid.h * h_grid_size)
         count+=1
-    print(buff)
+    
 
 compute_centroids(label_path,n_anchors,loss_convergence,w_grid_size,h_grid_size,iterations_num,plus)
