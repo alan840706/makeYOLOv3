@@ -184,7 +184,7 @@ def compute_centroids(label_path,n_anchors,loss_convergence,w_grid_size,h_grid_s
     while (True):
         centroids, groups, loss = do_kmeans(n_anchors, boxes, centroids)
         iterations = iterations + 1
-        print("\n-------------loss = %f-------------" % loss)
+        print("\n-------------loss = %f-------------" % loss/boxes)
         if iterations > iterations_num:
             break
         old_loss = loss
@@ -193,7 +193,7 @@ def compute_centroids(label_path,n_anchors,loss_convergence,w_grid_size,h_grid_s
             print(centroid.w * w_grid_size, centroid.h * h_grid_size)
 
     # print result
-    print("k-means result：\n")
+    print("k-means result：")
     count=0
     for centroid in centroids:
         if(count==0):
