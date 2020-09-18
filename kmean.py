@@ -184,7 +184,7 @@ def compute_centroids(label_path,n_anchors,loss_convergence,w_grid_size,h_grid_s
     while (True):
         centroids, groups, loss = do_kmeans(n_anchors, boxes, centroids)
         iterations = iterations + 1
-        print_buff=float(loss)/len(boxes)/len(n_anchors)
+        print_buff=float(loss)/len(boxes)/(n_anchors)
         print("\n-------------loss = %f-------------" % print_buff)
         if iterations > iterations_num:
             break
