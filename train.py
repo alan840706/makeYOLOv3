@@ -174,19 +174,20 @@ for file in os.listdir(saveYoloPath):
 
 buble_list=[]
 
-for i in range(len(fileList)):
-  target=int(fileList[i].split('(')[1].split(')')[0])
+for i in range(len(fileList)-1):
   for j in range(len(fileList)-i-1):
-    buff = int(fileList[i+j+1].split('(')[1].split(')')[0])
-    print(target，" ",buff，" ",buff)
+    target=int(fileList[j].split('(')[1].split(')')[0])
+    buff = int(fileList[j+1].split('(')[1].split(')')[0])
     if(target>buff):
-      
-      temp=str(fileList[i])
-      fileList[i]=str(fileList[i+j+1])
-      fileList[i+j+1]=str(temp)
+      temp=str(fileList[j])
+      fileList[j]=str(fileList[j+1])
+      fileList[j+1]=str(temp) 
+    
+    
           
 
-print(fileList)
+for i in fileList:
+  print(i)
 
 fall_state = []
 Not_fall_state = []
