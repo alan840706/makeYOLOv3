@@ -172,22 +172,7 @@ for file in os.listdir(saveYoloPath):
   if(file_extension == ".jpg" or file_extension==".jpeg" or file_extension==".png" or file_extension==".bmp"):
     fileList.append(os.path.join(saveYoloPath ,file))
 
-buble_list=[]
 
-for i in range(len(fileList)-1):
-  for j in range(len(fileList)-i-1):
-    target=int(fileList[j].split('(')[1].split(')')[0])
-    buff = int(fileList[j+1].split('(')[1].split(')')[0])
-    if(target>buff):
-      temp=str(fileList[j])
-      fileList[j]=str(fileList[j+1])
-      fileList[j+1]=str(temp) 
-    
-    
-          
-
-for i in fileList:
-  print(i)
 
 fall_state = []
 Not_fall_state = []
@@ -210,6 +195,19 @@ for i in os.listdir(imgFolder):
 
 data_state_round = [fall_state,Not_fall_state,temp_state]
 data_len = min(len(fall_state),len(Not_fall_state),len(temp_state))
+
+for p in data_state_round:
+  for i in range(len(p)-1):
+    for j in range(len(p)-i-1):
+      target=int(p[j].split('(')[1].split(')')[0])
+      buff = int(p[j+1].split('(')[1].split(')')[0])
+      if(target>buff):
+        temp=str(p[j])
+        p[j]=str(p[j+1])
+        p[j+1]=str(temp)
+  
+for i in fall_state:
+  print(i)
 
 for i in range(len(data_state_round)):
   data_state_round[i] = data_state_round[i][:data_len]
