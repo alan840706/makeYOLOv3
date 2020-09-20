@@ -172,17 +172,22 @@ for file in os.listdir(saveYoloPath):
   if(file_extension == ".jpg" or file_extension==".jpeg" or file_extension==".png" or file_extension==".bmp"):
     fileList.append(os.path.join(saveYoloPath ,file))
 
+buble_list=[]
+
 for i in range(len(fileList)):
   target=int(fileList[i].split('(')[1].split(')')[0])
   for j in range(len(fileList)-i-1):
     buff = int(fileList[i+j+1].split('(')[1].split(')')[0])
     if(target>buff):
+      #print(fileList[i],fileList[i+j+1])
       temp=fileList[i]
       fileList[i]=fileList[i+j+1]
+      print(fileList[i],temp)
       fileList[i+j+1]=temp
+      #print(fileList[i+j+1],fileList[i])
   print(i)    
 
-
+print(fileList)
 
 fall_state = []
 Not_fall_state = []
