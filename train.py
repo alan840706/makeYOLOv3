@@ -178,15 +178,13 @@ for i in range(len(fileList)):
   target=int(fileList[i].split('(')[1].split(')')[0])
   for j in range(len(fileList)-i-1):
     buff = int(fileList[i+j+1].split('(')[1].split(')')[0])
+    print(target，" ",buff，" ",buff)
     if(target>buff):
-      print("--------------------")
-      print(fileList[i],"***",fileList[i+j+1])
+      
       temp=str(fileList[i])
       fileList[i]=str(fileList[i+j+1])
-      print(fileList[i],"***",temp)
       fileList[i+j+1]=str(temp)
-      print(fileList[i],"***",fileList[i+j+1])
-  #print(i)    
+          
 
 print(fileList)
 
