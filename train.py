@@ -294,11 +294,8 @@ for m in Train_times:
   classNum = len(classList)
   filterNum = (classNum + 5) * 3
 
-  if(modelYOLO == "yolov2-tiny"):
-      fileCFG = "yolov2-tiny.cfg"
-
-  else:
-      fileCFG = "yolov2-tier.cfg"
+  
+  fileCFG = modelYOLO+".cfg"
 
   with open(os.path.join("./makeYOLOv3/cfg",fileCFG)) as file:
       file_content = file.read()
