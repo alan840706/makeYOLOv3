@@ -269,7 +269,7 @@ for m in Train_times:
   if not os.path.exists(os.path.join(cfgFolder ,"weights")):
       os.makedirs(os.path.join(cfgFolder ,"weights"))
       print("all weights will generated in here: " + os.path.join(cfgFolder ,"weights"))
-
+  shutil.copyfile("makeYOLOv3/yolov2_tier.weights",os.path.join(cfgFolder ,"weights")+"yolov2_tier.weights")
   with open(os.path.join(cfgFolder ,cfg_obj_data), 'w') as the_file:
       the_file.write("classes= " + str(classes) + "\n")
       the_file.write("train  = " + os.path.join(cfgFolder ,"train.txt") + "\n")
