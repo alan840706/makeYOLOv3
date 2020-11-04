@@ -178,6 +178,23 @@ fall_state = []
 Not_fall_state = []
 temp_state = []
 
+state_count = 0
+ONE_stage = int(len(os.listdir(imgFolder))/3)
+TWO_stage = int(len(os.listdir(imgFolder))/3)*2
+
+
+
+for i in os.listdir(imgFolder): 
+  if state_count<ONE_stage:
+    fall_state.append(i)
+  elif (state_count<TWO_stage):
+    Not_fall_state.append(i)
+  else:
+    temp_state.append(i)
+  state_count+=1
+  
+  
+ ''' 
 for i in os.listdir(imgFolder):
   buff = i.replace('jpg','txt')
   f = open(class_folder+'/'+buff)
@@ -189,7 +206,7 @@ for i in os.listdir(imgFolder):
   else:
     Not_fall_state.append(i)
 
-  f.close()
+  f.close()'''
 
 
 
