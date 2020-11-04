@@ -213,6 +213,7 @@ for i in os.listdir(imgFolder):
 data_state_round = [fall_state,Not_fall_state,temp_state]
 data_len = min(len(fall_state),len(Not_fall_state),len(temp_state))
 
+
   '''for p in data_state_round:
   for i in range(len(p)-1):
     for j in range(len(p)-i-1):
