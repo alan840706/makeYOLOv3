@@ -194,7 +194,7 @@ for i in os.listdir(imgFolder):
   state_count+=1
   
   
- ''' 
+  ''' 
 for i in os.listdir(imgFolder):
   buff = i.replace('jpg','txt')
   f = open(class_folder+'/'+buff)
