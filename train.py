@@ -213,7 +213,7 @@ for i in os.listdir(imgFolder):
 data_state_round = [fall_state,Not_fall_state,temp_state]
 data_len = min(len(fall_state),len(Not_fall_state),len(temp_state))
 
-for p in data_state_round:
+  '''for p in data_state_round:
   for i in range(len(p)-1):
     for j in range(len(p)-i-1):
       target=int(p[j].split('(')[1].split(')')[0])
@@ -221,7 +221,7 @@ for p in data_state_round:
       if(target>buff):
         temp=str(p[j])
         p[j]=str(p[j+1])
-        p[j+1]=str(temp)
+        p[j+1]=str(temp)'''
   
 for i in fall_state:
   print(i)
