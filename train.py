@@ -163,7 +163,9 @@ if testRatio!=0:
   Train_times = range(int(1/testRatio))
   Train_times = [i+1 for i in Train_times]
   print('\n',len(Train_times),' fold cross validation')
-
+else:
+  Train_times = [1]
+  print('\n',len(Train_times),' fold cross validation')
 fileList = []
 for file in os.listdir(saveYoloPath):
   filename, file_extension = os.path.splitext(file)
